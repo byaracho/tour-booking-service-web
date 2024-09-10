@@ -1,0 +1,117 @@
+.form {
+    &__group:not(:last-child) {
+        margin-bottom: 2rem;
+    }
+
+    &__input {
+        font-size: 1.5rem;
+
+        // 브라우저 디폴트 폰트가 적용되어 있으므로 상속받도록 함
+        font-family: inherit;
+        color: inherit;
+
+        padding: 1.5rem 2rem;
+        border-radius: 2px;
+        background-color: rgba($color-white, .5);
+        border: none;
+        border-bottom: 3px solid transparent;
+        width: 90%;
+        display: block;
+        transition: all .3s;
+
+        @include respond(tab-port) {
+            width: 100%;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba($color-white, .1);
+            border-bottom: 3px solid $color-primary;
+        }
+
+        &:focus:invalid {
+            border-bottom: 3px solid $color-secondary-dark;
+        }
+
+        &::-webkit-input-placeholder {
+            color: $color-gray-dark-2;
+        }
+    }
+
+    &__label {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: .7rem;
+        display: block;
+
+        transition: all .2s;
+    }
+
+    // adjacent sibling selector
+    &__input:placeholder-shown+&__label {
+        // 애니메이션 적용을 위함
+        opacity: 0;
+        // opacity만 적용시에는 문서에 여전히 존재하므로 
+        visibility: hidden;
+
+        // 위에서 아래로
+        transform: translateY(-4rem);
+    }
+
+    &__radio-group {
+        // 나란히 두기 위함
+        width: 49%;
+        display: inline-block;
+
+        @include respond(tab-port) {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+    }
+
+    &__radio-input {
+        display: none;
+    }
+
+    &__radio-label {
+        font-size: $default-font-size;
+        cursor: pointer;
+        position: relative;
+        padding-left: 4.5rem;
+    }
+
+    &__radio-button {
+        height: 3rem;
+        width: 3rem;
+        border: 5px solid $color-primary;
+        border-radius: 50%;
+
+        // 남은 크기에 맞게 찌그러지지 않게 하기 위함
+        display: inline-block;
+
+        // 기존 버튼과 겹치게 하기 위함
+        position: absolute;
+        top: -.4rem;
+        left: 0;
+
+        &::after {
+            content: "";
+            display: block;
+            height: 1.3rem;
+            width: 1.3rem;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: $color-primary;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+    }
+
+    &__radio-input:checked~&__radio-label &__radio-button::after {
+        opacity: 1;
+    }
+}

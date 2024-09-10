@@ -1,0 +1,97 @@
+.story {
+    width: 75%;
+    margin: 0 auto;
+    box-shadow: 0 3rem 6rem rgba($color-black, .1);
+    background: rgba($color-white, .6);
+    border-radius: 3px;
+    padding: 6rem;
+    padding-left: 9rem;
+    font-size: $default-font-size;
+
+    transform: skewX(-12deg);
+
+    @include respond(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 7rem;
+    }
+
+    @include respond(phone) {
+        transform: skewX(0);
+    }
+
+    &__shape {
+        width: 15rem;
+        height: 15rem;
+        float: left;
+        border-radius: 50%;
+        overflow: hidden;
+
+        @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+            // shape-outside는 float, width, height가 명시되어야만 사용 가능
+            // 동그란 쉐이프를 따라 콘텐츠가 흐르도록 함
+            -webkit-shape-outside: circle(50% at 50% 50%);
+            shape-outside: circle(50% at 50% 50%);
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+            border-radius: none;
+        }
+
+        // 옆으로 조금 이동
+        // &>*로 선택시 캐스케이딩이 되므로 텍스트와 이미지에 각각 적용
+        transform: translateX(-3rem) skewX(12deg);
+
+        position: relative;
+
+        @include respond(phone) {
+            transform: translateX(-3rem) skewX(0);
+        }
+    }
+
+    &__img {
+        height: 100%;
+        //이미지 포커스 조정
+        transform: translateX(-4rem) scale(1.4);
+
+        // hover 애니메이션
+        transition: all .5s;
+
+        //이미지가 쪼개지는 버그 고치기 왜인지는 모르지만 됨
+        backface-visibility: hidden;
+    }
+
+    &__text {
+        transform: skewX(12deg);
+
+        @include respond(phone) {
+            transform: skewX(0);
+        }
+    }
+
+    &__caption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        // 위에서 올라오는 것처럼 보이게 하기 위함
+        transform: translate(-50%, 20%);
+        color: $color-white;
+        text-transform: uppercase;
+        font-size: 1.7rem;
+        text-align: center;
+        opacity: 0;
+        transition: all .5s;
+        backface-visibility: hidden;
+    }
+
+    &:hover &__caption {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover &__img {
+        // 이미지 줌아웃
+        transform: translateX(-4rem) scale(1);
+        filter: blur(3px) brightness(80%);
+    }
+}
